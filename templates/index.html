@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Event Map
+{% endblock %}
+
+{% block main %}
+    <h1>Welcome to ComeThru!</h1>
+    <p><b>NOTE:</b> Events will only appear for 24 hours after creation!</p>
+    <div id="map"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js"></script>
+    <script>
+        /*global google*/
+
+        // Initialize and add the map
+        function initMap() {
+
+            // The location of harvard yard
+            var yardcoords = {lat: 42.3744, lng: -71.1163};
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: yardcoords,
+                zoom: 15.3
+            });
+
+            var events = {{ displayevents|tojson }};
+
+            var i;
+
+            var infowindow = new google.maps.InfoWindow();
+            var infowindowContent = document.getElementById('infowindow-content');
+            infowindow.setContent(infowindowContent);
+
+            // https://github.com/jawj/OverlappingMarkerSpiderfier
+
+            var oms = new OverlappingMarkerSpiderfier(map, {
+                markersWontMove: true,
+                markersWontHide: true,
+                basicFormatEvents: true
+            });
+
+            for (i=0; i<events.length; i++) {
+                var coords = new google.maps.LatLng(events[i]["latitude"],events[i]["longitude"]);
+                var marker = new google.maps.Marker({position: coords});
+                marker.setVisible(true);
+
+                oms.addMarker(marker);
+
+                var content ='<div class="infowindow"><h2>' + events[i]["eventname"] + '</h2>' +
+                    '<div><b>Created by user:</b> ' + events[i]["createdby"] + '</div>' +
+                    '<div><b>Location:</b> ' + events[i]["address"] + '</div>' +
+                    '<div><b>Event Host:</b> ' + events[i]["eventhost"] + '</div>' +
+                    '<div><b>Start Time:</b> ' + events[i]["starttime"] + '</div>' +
+                    '<div><b>End Time:</b> ' + events[i]["endtime"] + '</div>' +
+                    '<div><b>Description:</b> ' + events[i]["description"] + '</div></div>';
+
+                google.maps.event.addListener(marker,'spider_click', (function(marker,content,infowindow){
+                    return function() {
+                        infowindow.setContent(content);
+                        infowindow.open(map,marker);
+                    };
+                })(marker,content,infowindow));
+            }
+
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwEgzpUTVjZnAkEExOiiBSoihAU3Z1tu4&callback=initMap"></script>
+    <br>
+    <p>Would you like to change your password? Do so <a href="/password">here</a>.</p>
+<footer class="small text-center text-muted">
+    Ain't no party like a 408 party
+</footer>
+{% endblock %}

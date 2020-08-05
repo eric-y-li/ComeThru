@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Location
+{% endblock %}
+
+{% block main %}
+    <h1 class="mb-3">Event location</h1>
+    <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" class="form-control" name = "address" id="autocomplete" placeholder="Event Location" required>
+    </div>
+    <button class="btn btn-primary" onclick="getLocation()">Submit</button>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwEgzpUTVjZnAkEExOiiBSoihAU3Z1tu4&libraries=places&callback=placesSearch" async defer></script>
+    <script>
+      /*global google*/
+
+      var autocomplete;
+      var place;
+
+      function placesSearch() {
+        // Create the autocomplete object and associate it with the UI input control.
+        // Restrict the search to the default country, and to place type "cities".
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */ (
+                document.getElementById('autocomplete')));
+
+        autocomplete.setFields(
+            ['address_components', 'geometry', 'icon', 'name']);
+
+        autocomplete.addListener('place_changed', onPlaceChanged);
+      }
+
+      // When the user selects a city, get the place details for the city.
+      function onPlaceChanged() {
+        place = autocomplete.getPlace();
+        console.log(place.geometry.location.lat());
+        if (place.geometry) {
+          return true;
+        } else {
+          document.getElementById('autocomplete').placeholder = 'Enter a city';
+        }
+      }
+
+      function getLocation() {
+            let address = document.querySelector('input').value;
+            $.ajax({
+              type : 'POST',
+              url : '/location',
+              contentType: 'application/json;charset=UTF-8',
+              dataType: 'json',
+              data : JSON.stringify({
+                "address": address,
+                "latitude": place.geometry.location.lat(),
+                "longitude": place.geometry.location.lng()
+              }),
+              success: function(response) {
+                if (response.redirect) {
+                    window.location.href = response.redirect;
+                }
+              }
+          });
+        }
+    </script>
+{% endblock %}

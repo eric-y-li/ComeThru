@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <h1 class="mb-3">Event details</h1>
+
+    <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+    <form action="/form" method="post" id="eventForm">
+      <div class="form-group">
+       <label for="host">Event Host</label>
+       <select class="form-control" id="selectMenu" name = "host" required>
+          <option disabled selected value="">Choose Host</option>
+          <option value = "Individual Host(s)">Individual Host(s)</option>
+          <option value = "Sports Team">Sports Team</option>
+          <option value = "School Affiliated Organization/Club">School Affiliated Organization/Club</option>
+          <option value = "Social Organization">Social Organization</option>
+       </select>
+      </div>
+      <div class="form-group">
+        <label for="name">Event Name</label>
+        <input type="text" class="form-control" name = "eventName" id="eventName" placeholder="Event Title"required>
+      </div>
+      <div class="md-form">
+       <label for="starttime">Start Time</label>
+       <input type="time" id="starttime" name="starttime" required>
+       <label for="endtime">End Time</label>
+       <input type="time" id="endtime" name="endtime" required>
+      </div>
+      <label for="description">Description</label>
+      <div class="form-group">
+        <textarea class="form-control-wide" name="description" id="description" rows="5" placeholder="Describe Your Event" required></textarea>
+      </div>
+      <div>
+      <select class="form-control" id="privacy" name = "privacy" required>
+          <option disabled selected value="">Who can see this party?</option>
+          <option value = "public">Public</option>
+          <option value = "private">Only My Crowd</option>
+      </select>
+      </div>
+      <p>
+
+      </p>
+      <button class="btn btn-primary" type="submit">Next</button>
+    </form>
+<footer class="small text-center text-muted">
+    Your submissions are greatly appreciated.
+</footer>
+<script>
+  document.querySelector('form').onsubmit = function(){
+    if (!document.querySelector("#selectMenu").value) {
+      alert('Choose a host');
+      return false;
+    }
+    else if (!document.querySelector("#eventName").value){
+      alert('Enter an event name');
+      return false;
+    }
+    else if (!document.querySelector("#starttime").value){
+      alert('Enter a start time');
+      return false;
+    }
+    else if (!document.querySelector("#endtime").value){
+      alert('Enter an end time');
+      return false;
+    }
+    else if (!document.querySelector("#description").value){
+      alert('Enter an event description');
+      return false;
+    }
+    else if (!document.querySelector("#privacy").value){
+      alert('Choose a privacy setting');
+      return false;
+    }
+    return true;
+  };
+</script>
+
+{% endblock %}
+<!-- selection menu and text boxes were taken from bootstrap -->

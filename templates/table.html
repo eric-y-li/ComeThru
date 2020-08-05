@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Table View
+{% endblock %}
+
+{% block main %}
+<!--https://getbootstrap.com/docs/4.1/content/tables/-->
+<table action="/table" method="get" class="table table-striped">
+  <thead>
+    <tr>
+      <!--Different descriptors of event-->
+      <th>Event</th>
+      <th>Host</th>
+      <th>Description</th>
+      <th>Location</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!--Populate the display of events with the inputs-->
+    {% for row in rows %}
+    <tr>
+            <td>{{ row["eventname"] }}</td>
+            <td>{{ row["eventhost"] }}</td>
+            <td>{{ row["description"] }}</td>
+            <td>{{ row["address"] }}</td>
+            <td>{{ row["starttime"] }}</td>
+            <td>{{ row["endtime"] }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+    </tr>
+  </tbody>
+
+</table>
+<footer class="small text-center text-muted">
+    You never have an excuse not to go out again!
+</footer>
+{% endblock %}

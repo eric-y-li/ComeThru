@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Table View
+{% endblock %}
+{% block main %}
+<h1 class="mb-3">Add to your Crowd</h1>
+<p>Please enter the exact username!</p>
+<!--Form is the manner in which one can send a friend request-->
+<form action="/addfriend" method="post" id="friendAdd">
+    <input type="text" class="form-control" name = "friendadd" id="infobox" placeholder="Grow your Crowd" required>
+    <button class="btn btn-primary" type="submit">Request</button>
+</form>
+<footer class="small text-center text-muted">
+            Add mrtripple-maybe I will accept
+        </footer>
+<script>
+        document.querySelector('form').onsubmit = function(event) {
+            event.preventDefault();
+            let username = document.querySelector('input[name="friendadd"]');
+            $.get("/check2?username=" + username.value, function(data) {
+                if (data == "nouserexists") {
+                    alert("That is not a user!")
+                }
+                else if (data == "friendexists") {
+                    alert("You are already friends!")
+                }
+                else if (data == "requestexists") {
+                    alert("Already requested!")
+                }
+                else
+                {
+                    document.querySelector('form').submit();
+                }
+            })
+        };
+</script>
+{% endblock %}

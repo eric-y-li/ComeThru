@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Table View
+{% endblock %}
+
+{% block main %}
+<form method="POST" id="my_form">
+<h1>Big Ol' Crowd</th>
+<!--https://getbootstrap.com/docs/4.1/content/tables/-->
+<table action="/friends" method="get" class="table table-striped">
+  <tbody>
+    <!--Each row displays the friend's name as well as a button to delete the friend-->
+    {% for row in rows %}
+    <tr>
+            <td>{{ row["friendname"] }}</td>
+            <td><button id = "button" name = "delete" value = "Delete{{row["friendname"]}}">Delete</button></td>
+    </tr>
+    {% endfor %}
+    <tr>
+    </tr>
+  </tbody>
+
+</table>
+</form>
+<footer id = "vsmall" class="small text-center text-muted">
+    Now that is a shockingly small crowd you got there
+</footer>
+{% endblock %}

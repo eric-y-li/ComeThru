@@ -1,0 +1,71 @@
+nav .navbar-brand
+{
+    /* size for brand */
+    font-family: "Impact";
+    font-size: xx-large;
+}
+
+/* colors for brand */
+nav .navbar-brand .green
+{
+    color: #193086;
+}
+
+
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main .form-control-wide {
+    width: 500px;
+    display: inline-block;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+#map{
+    height:600px;
+    width:100%;
+}
+body
+{
+  font-family: "Comic Sans MS";
+  background-color: #193086;
+  color: #c3d7f7;
+}
+tr
+{
+    color: #c3d7f7;
+    font-size: medium;
+}
+/*footer*/
+/*{*/
+/*    font-size: x-small;*/
+/*}*/
+#vsmall
+{
+    font-size: .3em ;
+}
+.infowindow
+{
+    color:#193086;
+}
